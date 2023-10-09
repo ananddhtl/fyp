@@ -17,8 +17,6 @@ use App\Http\Controllers\ActivitiesCatagoryController;
 use App\Http\Controllers\AddUserController;
 use App\Http\Controllers\EquipmentCatagoryController;
 use App\Http\Controllers\EquipmentsController;
-
-
 use App\Http\Controllers\ExpensesFromEquipmentController;
 use App\Http\Controllers\ExpensesStaffController;
 use App\Http\Controllers\IncomeFromEquipmentController;
@@ -27,6 +25,9 @@ use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\ManagementUserController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SuppliersController;
+use App\Http\Controllers\GoodsReceivedController;
+use App\Http\Controllers\GoodsReturnEntryController;
+use App\Http\Controllers\GoodsIssueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -207,6 +208,19 @@ Route::get('/expensesstaff/add', function () {
 Route::get('/expensesfromstaff/list', function () {
     return view('frontend.expensesfromstaff.list');
 });
+
+Route::get('/addgoodsreceived', function () {
+    return view('frontend.inventory.goodsreceived.add');
+});
+
+Route::get('/addgoodsreturn', function () {
+    return view('frontend.inventory.goodsreturn.add');
+});
+
+Route::get('/addgoodsissue', function () {
+    return view('frontend.inventory.goodsissue.add');
+});
+
 
 
 
@@ -719,3 +733,22 @@ Route::get('/searchStaffDate', [ExpensesStaffController::class, 'searchDateWithS
 Route::get('/searchDateWithProject', [ProjectActivitiesController::class, 'searchProject']);
 
 Route::get('/searchDateWithSuppliers', [ProjectActivitiesController::class, 'getSuppliersActivitiesReport']);
+
+
+Route::POST('/addGoodReceived', [GoodsReceivedController::class, 'store']);
+Route::get('/goodsreceivedlist', [GoodsReceivedController::class, 'index']);
+Route::get('/getGoodReceived/{transactionCode}', [GoodsReceivedController::class, 'forModal']);
+
+
+Route::get('/searchProjectName/{searchkey}', [ProjectController::class, 'searchProjectData']);
+
+
+Route::post('/addgoodsreceivedReturn', [GoodsReturnEntryController::class, 'store']);
+Route::get('/goodsreturn', [GoodsReturnEntryController::class, 'index']);
+
+
+Route::post('/addgoodsissue', [GoodsIssueController::class, 'store']);
+Route::get('/goodsissue', [GoodsIssueController::class, 'index']);
+
+
+Route::post('/addgoodsissuereturn', [GoodIssueReturnController::class, 'store']);

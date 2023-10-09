@@ -124,8 +124,8 @@ class SuppliersController extends Controller
     }
     public function searchSuppliers($searchkey)
     {
-        $suppliers = Suppliers::select('id', 'fullname', 'address')->where('fullname', 'like', '' . $searchkey . '%')->get()->take(10);
-        return json_encode($suppliers);
+        $data = Suppliers::select('id', 'fullname', 'address')->where('fullname', 'like', '' . $searchkey . '%')->get()->take(10);
+        return json_encode($data);
     }
     public function getSuppliersWise()
 

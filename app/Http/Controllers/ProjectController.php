@@ -181,4 +181,12 @@ class ProjectController extends Controller
 
         return  Excel::download(new ProjectExport, 'project.xlsx',);
     }
+    public function searchProjectData($searchkey)
+    {
+        $data = DB::table('projects')->select('id', 'project_name','project_address',)
+            ->where('project_name', 'like', $searchkey . '%')
+            ->take(10)
+            ->get();
+        return json_encode($data);
+    }
 }

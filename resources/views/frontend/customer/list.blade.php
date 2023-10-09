@@ -68,15 +68,6 @@
       </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
   <!-- Input addon -->
 
   <!-- /.card -->
