@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\SecondaryRecords;
-use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
-class GoodsIssueController extends Controller
+class GoodIssueReturnController extends Controller
 {
     public function generateUniqueID()
     {
@@ -45,18 +45,16 @@ class GoodsIssueController extends Controller
         }
         return '';
     }
-
     public function store(Request $request)
     {
 
         $validationMessages = [
 
-            
         ];
 
         $validator = Validator::make($request->all(), [
 
-            
+           
         ], $validationMessages);
 
         if ($validator->fails()) {
@@ -65,18 +63,19 @@ class GoodsIssueController extends Controller
         if ($request->items === null || count($request->items) == 0) {
             return redirect()->back()->with('message', 'Add item to the list.');
         }
+
         $s_id = $this->generateUniqueID();
+
+        $currentTime = now();
 
         // \DB::table('activity_logs')->insert([
         //     'LogDate' => date('Y-m-d'),
-        //     'Activity' => 'Goods Issue  Store',
+        //     'Activity' => 'Goods Issue Return  Store',
         //     'userid' => $request->user_id,
         //     'ReferenceNo' => "$s_id",
         //     'AccountingDate' => date('Y-m-d'),
         //     'LogsTime' => date("Y-m-d h:i:sa"),
         // ]);
-        $currentTime = now();
-
         foreach ($request->items as $item) {
             $itemData = explode('{#}', $item);
             $inventoryID = $itemData[0];
@@ -92,14 +91,14 @@ class GoodsIssueController extends Controller
             DB::table('secondary_inventory_store')->insert([
                 'tCode' => $s_id,
                 'inventoryID' => $inventoryID,
-                'instock' => $instock,
-                'outstock' => 0,
+                'instock' => 0,
+                'outstock' => $instock,
                 'cancel' => 0,
                 'vat' => $vat,
                 'amount' => $amount,
                 'unit_cost_rate' => $unit_cost_rate,
                 'unitEqualsTo' => $unitEqualsTo,
-                'status' => 'issue',
+                'status' => 'issuereturn',
                 // 'inite_convert_standard' => $inite_convert_standard,
                 // 'convert_type' => $convert_type,
                 'unit_cost_rate' => $unit_cost_rate,
@@ -110,9 +109,9 @@ class GoodsIssueController extends Controller
             DB::table('primaryInventoryStore')->insert([
                 'tCode' => $s_id,
                 'inventoryID' => $inventoryID,
-                'instock' => 0,
-                'status' => 'issue',
-                'outstock' => $qty,
+                'instock' => $qty,
+                'status' => 'issuereturn',
+                'outstock' => 0,
                 'unitEqualsTo' => $unitEqualsTo,
                 'unit_cost_rate' => $unit_cost_rate,
                 'amount' => $amount,
@@ -138,19 +137,20 @@ class GoodsIssueController extends Controller
         }
         $secondaryStore = new SecondaryRecords();
         $secondaryStore->transactionCode = $s_id;
-        $secondaryStore->project_id = $request->project_id;
         $secondaryStore->date = $request->date;
+        $secondaryStore->project_id = $request->project_id;
         $secondaryStore->demand_sheet_number = $request->demand_sheet;
         $secondaryStore->userId = $request->user_id;
         $secondaryStore->vat = $totalVat;
         $secondaryStore->quantity = $totalQuantity;
         $secondaryStore->discount = 0;
         $secondaryStore->cancel = 0;
-        $secondaryStore->status = 'issue';
+        $secondaryStore->status = 'issuereturn';
         $secondaryStore->gtotal = $totalAmount;
         $secondaryStore->save();
-        return redirect('/goodsissue')->with('stored', 'Data has been saved successfully');
+        return redirect('/goodissuereturn')->with('stored', 'Data has been saved successfully');
     }
+    //
 
     public function index(Request $request)
     {
@@ -159,8 +159,8 @@ class GoodsIssueController extends Controller
                 ->join('projects', 'secondary_records.project_id', '=', 'projects.id')
                 ->select('secondary_records.*','projects.project_name')
                 ->where('secondary_records.cancel', 0)
-                ->where('secondary_records.status', 'issue')
-                ->orderBY('id', 'DESC');
+                ->where('secondary_records.status', 'issuereturn');
+
             if ($request->filled('from') && $request->filled('to')) {
                 $from = $request->input('from');
                 $to = $request->input('to');
@@ -173,26 +173,27 @@ class GoodsIssueController extends Controller
             }
             $list = $query->paginate(10);
 
-            return view('frontend.inventory.goodsissue.list', compact('list'));
+            return view('frontend.inventory.goodsissuereturn.list', compact('list'));
         }
     }
 
     public function edit($tCode, Request $request)
     {
         $list = DB::table('secondary_inventory_store')
+
             ->join('item_settings', 'item_settings.id', '=', 'secondary_inventory_store.inventoryID')
             ->select('secondary_inventory_store.*', 'item_settings.*')
             ->where('secondary_inventory_store.tCode', $tCode)
             ->get();
-        $goodsIssue = DB::table('secondary_records')
+
+        $goodsIssueReturn = DB::table('secondary_records')
             ->join('projects', 'secondary_records.project_id', '=', 'projects.id')
             ->select('secondary_records.*','projects.project_name')
             ->where('secondary_records.transactionCode', $tCode)
             ->first();
-        return view('frontend.inventory.goodsissue.edit', compact('goodsIssue', 'list'));
 
+        return view('frontend.inventory.goodsissuereturn.edit', compact('goodsIssueReturn', 'list'));
     }
-
     public function forModal($transactionCode)
     {
         $list = DB::table('secondary_inventory_store')
@@ -205,6 +206,7 @@ class GoodsIssueController extends Controller
         $goodsReceived = DB::table('secondary_records')
             ->join('projects', 'secondary_records.project_id', '=', 'projects.id')
             ->select('secondary_records.*', 'projects.project_name')
+
             ->where('secondary_records.transactionCode', $transactionCode)
             ->first();
 
@@ -213,11 +215,12 @@ class GoodsIssueController extends Controller
             'list' => $list,
         ]);
     }
+
     public function update(Request $request, $tCode)
     {
         // \DB::table('activity_logs')->insert([
         //     'LogDate' => date('Y-m-d'),
-        //     'Activity' => 'Goods Issue  Cancel',
+        //     'Activity' => 'Goods Issue Return Cancel',
         //     'userid' => $request->user_id,
         //     'ReferenceNo' => "$tCode",
         //     'AccountingDate' => date('Y-m-d'),
@@ -251,7 +254,7 @@ class GoodsIssueController extends Controller
                 'cancel' => '1',
                 'cancelation_note' => $request->cancellation_reason,
             ]);
-        return redirect('/goodsissue')->with('updated', 'Data has been canceled successfully');
+        return redirect('/goodissuereturn')->with('updated', 'Data has been canceled successfully');
     }
 
     public function destroy(Request $request)
@@ -270,6 +273,20 @@ class GoodsIssueController extends Controller
         DB::table('primaryInventoryStore')->where('tCode', $tCode)->delete();
 
         return redirect('/goodissue')->with('message', 'Your data has been deleted successfully');
+    }
+    public function stockinoroutData($itemId)
+    {
+        // $getKotbot = DB::table('primaryInventoryStore')->where('InventoryID', $itemId)->get();
+        $total = \DB::select("SELECT SUM(instock - outstock) AS totalQty FROM secondary_inventory_store WHERE inventoryID='" . $itemId . "'");
+
+        $rateAndConvert = \DB::select("SELECT unit_cost_rate FROM `secondary_inventory_store` WHERE `inventoryID`=" . $itemId . " ORDER by created_at DESC limit 1");
+
+        $response = [
+            'total' => $total,
+            'rateAndConvert' => $rateAndConvert,
+        ];
+
+        return response()->json($response);
     }
 
 }

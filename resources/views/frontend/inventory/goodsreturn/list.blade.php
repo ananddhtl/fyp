@@ -65,45 +65,45 @@
     <div class="toast toast-success" aria-live="polite"></div>
 </div>
 
-@if (Session::has('status'))
-
-
+@if (Session::has('stored'))
 <div id="containerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-success alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added Customer Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added Successfully</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="toast-body">{{session('status')}}</div>
+        <div class="toast-body">{{session('stored')}}</div>
     </div>
 </div>
 @endif
-@if (session('message'))
+@if (session('deleted'))
 <div id="ContainerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Customer Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Successfully</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="toast-body">{{session('message')}}</div>
+        <div class="toast-body">{{session('deleted')}}</div>
     </div>
 </div>
 
 @endif
-@if (session('messages'))
+@if (session('updated'))
 <div id="ContainerTopRight" style="margin-top:110px; " class="toasts-top-right ">
     <div class="alert alert-info alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Customer Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Successfully</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="toast-body">{{session('messages')}}</div>
+        <div class="toast-body">{{session('updated')}}</div>
     </div>
 </div>
 @endif
+
+
 
 
 <section class="content-header">
@@ -143,11 +143,15 @@
                 <div class="row">
                     <div class="col-md-6 ">
 
-                        <form action="{{url('/customersearch')}}" method="GET" accept-charset="utf-8">
+                        <form action="{{url('/goodsreturn')}}" method="GET" accept-charset="utf-8">
                             @csrf
                             <div style="margin-bottom:15px; " class="input-group">
-                                <input type="text" autocomplete="off" name="customer_name"
-                                    class="form-control form-control-lg" placeholder="Enter Project name">
+                                <input type="text" autocomplete="off" name="project_name"
+                                    class="form-control form-control-lg" placeholder="Enter Project name">&nbsp;
+                                <input class="form-control form-control-lg" type="date" name="from" id="todayDate"
+                                    placeholder="From">&nbsp;
+                                <input class="form-control form-control-lg" type="date" name="to" id="todayDate1"
+                                    placeholder="To">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-lg btn-info">
                                         <i class="fa fa-search"></i>
@@ -189,9 +193,9 @@
                             <td>{{$item->vat}}</td>
                             <td>{{$item->gtotal}}</td>
                             <td><a href="{{url('editGoodReturn/'.$item->transactionCode)}}"><button
-                                        class="edit-button">Cancel<i class="ri-pencil-line"></i> </button></a>
-                                &nbsp;<button class="view-button openrecord-button"
-                                    data-tCode="{{ $item->transactionCode }}">View <i
+                                        class="btn btn-info btn-sm">Cancel<i class="ri-pencil-line"></i> </button></a>
+                                &nbsp;<button class="btn btn-info openrecord-button"
+                                    onclick="showModal('{{$item->transactionCode}}')">View <i
                                         class="ri-pencil-line"></i></button>
 
                         </tr>
@@ -234,95 +238,87 @@
 
 
 
-
-
-
-
-
-
-    <!-- Modal -->
-
-
-    <div id="record-modal" class="view-records-modal">
-        <div class="records-content">
-            <span class="close-modal-btn">&times;</span>
-            <div class="table-heading">
-                <table class="input-table">
-                    <tr>
-                        <th>Date</th>
-                        <th>Supplier's Name</th>
-                        <th>Bill Number</th>
-                    </tr>
-                    <tr>
-                        <td><input type="date" id="modal-date" readonly></td>
-                        <td><input type="text" id="modal-acname" readonly></td>
-                        <td><input type="text" id="modal-partyBillNo" readonly></td>
-                    </tr>
-                </table>
-                <div class="whole-table-slide" style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
-                    <table class="responsive-slider table-datas" id="modal-items-table">
-                        <tr>
-                            <th>Item Name</th>
-                            <th>Rate</th>
-                            <th>Quantity</th>
-                            <th>Unit</th>
-                            <th>Vat</th>
-                            <th>Amount</th>
-                            <th>Total Amount</th>
-
-                        </tr>
-                        <tbody id="modal-items-table-body"></tbody>
-                    </table>
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:700px;">
+                <div class="modal-header bg bg-info">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <table class="input-table">
-                    <tr>
-                        <th>Total VAT</th>
-                        <th>Total Amount</th>
-                        <th>Grand Total</th>
-                    </tr>
-                    <tr>
-                        <td><input type="text" id="modal-vat" readonly></td>
-                        <td><input type="text" id="modal-amount" readonly></td>
-                        <td><input type="text" id="modal-grand-total" readonly></td>
-                    </tr>
-                </table>
+                <div class="modal-body">
+                    <h4>Date: <span id="modal-date"></span></h4>
+                    <h4>Project Name: <span id="modal-acname"></span></h4>
+                    <h4>Party Bill No: <span id="modal-partyBillNo"></span></h4>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Item Name</th>
+                                <th>Unit Cost Rate</th>
+                                <th>Instock</th>
+                                <th>Unit</th>
+                                <th>VAT</th>
+                                <th>Total Cost</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-items-table-body">
+                            <!-- Data will be populated here dynamically -->
+                        </tbody>
+                    </table>
+
+                    <h4>VAT Total: <span id="modal-vat"></span></h4>
+                    <h4>Amount Total: <span id="modal-amount"></span></h4>
+                    <h4>Grand Total: <span id="modal-grand-total"></span></h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
 
 
     <script>
-    var recordModal = document.getElementById("record-modal");
-    var openRecordButtons = document.querySelectorAll(".openrecord-button");
-    var closeModalBtn = document.querySelector(".close-modal-btn");
+    setTodayDate();
 
-    openRecordButtons.forEach(function(button) {
-        button.addEventListener("click", function() {
-            var tCode = this.getAttribute("data-tCode");
-            recordModal.style.display = "block";
+    function setTodayDate() {
+        var today = new Date();
+        var day = String(today.getDate()).padStart(2, '0');
+        var month = String(today.getMonth() + 1).padStart(2, '0');
+        var year = today.getFullYear();
 
+        var formattedDate = year + '-' + month + '-' + day;
+        document.getElementById('todayDate').value = formattedDate;
+        document.getElementById('todayDate1').value = formattedDate;
+    }
 
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    populateData(data);
-                }
-            };
-            xhr.open("GET", "/getGoodReceived/" + tCode, true);
-            xhr.send();
-        });
-    });
+    function showModal(transactionCode) {
 
-    closeModalBtn.addEventListener("click", function() {
-        recordModal.style.display = "none";
-    });
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/getGoodReturn/" + transactionCode, true);
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var responseData = JSON.parse(xhr.responseText);
+                populateData(responseData);
+                $("#exampleModalLong").modal('show');
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
+
+            }
+        };
+
+        xhr.send();
+    }
 
     function populateData(data) {
 
-        document.getElementById('modal-date').value = data.goodsReceived.date;
-        document.getElementById('modal-acname').value = data.goodsReceived.fullname;
-        document.getElementById('modal-partyBillNo').value = data.goodsReceived.partyBillNo;
+        document.getElementById('modal-date').textContent = data.goodsReceived.date;
+        document.getElementById('modal-acname').textContent = data.goodsReceived.project_name;
+        document.getElementById('modal-partyBillNo').textContent = data.goodsReceived.partyBillNo;
 
         var vatTotal = 0;
         var amountTotal = 0;
@@ -337,14 +333,14 @@
 
             var row = document.createElement('tr');
             row.innerHTML = `
-            <td>${item.item_name}</td>
-            <td>${item.unit_cost_rate}</td>
-            <td>${item.instock}</td>
-            <td>${item.unit}</td>
-            <td>${item.vat}</td>
-            <td>${item.unit_cost_rate * item.instock}</td>
-            <td>${item.amount}</td>
-        `;
+    <td>${item.item_name}</td>
+    <td>${item.unit_cost_rate}</td>
+    <td>${item.instock}</td>
+    <td>${item.unit}</td>
+    <td>${item.vat}</td>
+    <td>${item.unit_cost_rate * item.instock}</td>
+    <td>${item.amount}</td>
+`;
             tableBody.appendChild(row);
             vatTotal += parseFloat(item.vat);
             amountTotal += parseFloat(item.unit_cost_rate * item.instock);
@@ -352,10 +348,20 @@
 
 
         }
-        document.getElementById('modal-vat').value = vatTotal.toFixed(2);
-        document.getElementById('modal-amount').value = amountTotal.toFixed(2);
-        document.getElementById('modal-grand-total').value = grandTotal.toFixed(2);
+        document.getElementById('modal-vat').textContent = vatTotal.toFixed(2);
+        document.getElementById('modal-amount').textContent = amountTotal.toFixed(2);
+        document.getElementById('modal-grand-total').textContent = grandTotal.toFixed(2);
     }
     </script>
+
+
+
+    <!-- Modal -->
+
+
+
+
+
+
 
     @endsection

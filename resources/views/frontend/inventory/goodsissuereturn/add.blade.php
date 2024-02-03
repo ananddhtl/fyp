@@ -1,5 +1,5 @@
 <?php
-$itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,stockable from item_settings;");
+$itemName = DB::select("SELECT DISTINCT item_name,id,unit,subunit,equal_value,vatable,normal_rate from item_settings;");
 ?>
 @extends('welcome')
 
@@ -60,8 +60,9 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active"><a href="/addgoodsreceived">Add</a></li>
-                    <li class="breadcrumb-item active"><a href="/goodsreceivedlist">List</a></li>
+                    <li class="breadcrumb-item active"><a href="/customer/add">Add</a></li>
+
+                    <li class="breadcrumb-item active"><a href="/customer/list">List</a></li>
                 </ol>
             </div>
         </div>
@@ -70,7 +71,7 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
 <div class="col-md-12 ">
     <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Goods Received Entry </h3>
+            <h3 class="card-title">Goods Issue Return Entry </h3>
 
         </div>
         <!-- /.card-header -->
@@ -85,7 +86,7 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
         </div>
         @endif
 
-        <form action="{{url('addGoodReceived')}}" method="POST">
+        <form action="{{ url('/addgoodsissuereturn') }}" method="POST">
             @csrf
             <div class="card-body">
                 <div class="form-group row">
@@ -95,17 +96,17 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
                             placeholder="Enter Full Name" required>
                     </div>
                     <div class="col-sm-4">
-                        <label for="supplierName" class=" col-form-label"> Suppliers Name:*</label>
-                        <input type="hidden" name="party_id" id="accno" placeholder="Party Id">
+                        <label for="supplierName" class=" col-form-label"> Project Name:*</label>
+                        <input type="hidden" name="project_id" id="accno" placeholder="Party Id">
                         <input type="text" class="form-control" id="partyName" onkeyup="searchPartyName()"
-                            placeholder="Search Supplier's Name" autocomplete="off">
+                            placeholder="Search Project's Name" autocomplete="off">
                         <div class="dropdown-content" id="partyname_data"></div>
                     </div>
                     <div class="col-sm-4">
-                        <label for="partyBillNo" class=" col-form-label"> Party Bill No.* </label>
-                        <input type="text" class="form-control " autocomplete="off" name="partyBillNo"
-                            onkeypress="return onlyNumberKey(event)" id="partyBillNo" placeholder="Enter Bill No."
-                            required>
+                        <label for="partyBillNo" class=" col-form-label"> Demand Sheet Number.* </label>
+                        <input type="text" class="form-control " autocomplete="off" name="demand_sheet"
+                            onkeypress="return onlyNumberKey(event)" id="partyBillNo"
+                            placeholder="Enter Demand Sheet No." required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -117,7 +118,7 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
                         <div class="dropdown-content" id="itemDropdown">
                             @foreach($itemName as $item)
                             <a href="javascript:void(0);"
-                                onclick="updateItem('{{$item->id}}', '{{$item->item_name}}', '{{$item->unit}}', '{{$item->vatable}}','{{$item->normal_rate}}','{{$item->stockable}}');">{{$item->item_name}}</a>
+                                onclick="updateItem('{{$item->id}}', '{{$item->item_name}}', '{{$item->unit}}', '{{$item->subunit}}', '{{$item->equal_value}}','{{$item->vatable}}','{{$item->normal_rate}}');">{{$item->item_name}}</a>
                             @endforeach
                         </div>
                     </div>
@@ -154,6 +155,20 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
                         <input type="text" name="unit_cost_rate" class="form-control" autocomplete="off"
                             id="totalAmountInput" value="" placeholder="Enter Total Amount" readonly>
                     </div>
+
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="amount" class="col-form-label">Unit Convert Standard:*</label>
+                        <input type="text" class="form-control" name="inite_convert_standard"
+                            id="initeConvertStandardInput" placeholder="Unit Convert Standard" readonly>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="vatAmount" class=" col-form-label"> Convert Type:*</label>
+                        <input type="text" name="convert_type" class="form-control" id="convertTypeInput"
+                            placeholder="Convert Type" readonly>
+                    </div>
+
                     <div class="col-sm-1">
                         <button href="javascript:;" style="margin-top:38px;" class="btn btn-info"
                             onclick="displayBasketItemIntoTable()">+</button>
@@ -161,20 +176,23 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 mt-5">
-                        <table class="table " id="itemTable">
+                        <table class="table"  id="itemTable">
                             <thead>
                                 <tr>
                                     <th>Item Name</th>
-                                    <th>Quantity</th>
                                     <th>Rate</th>
+                                    <th>Quantity</th>
                                     <th>Unit</th>
                                     <th>Amount</th>
                                     <th>Vatable Amount</th>
                                     <th>Total Amount</th>
+                                    <th>Inite Convert Standard</th>
+                                    <th>Convert Type</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="itemTableBody">
+
                             </tbody>
                         </table>
                     </div>
@@ -182,7 +200,7 @@ $itemName = DB::select("SELECT DISTINCT item_name,id,unit,vatable,normal_rate,st
                 <div class="form-group row">
                     <div class="col-sm-4">
                         <label for="totalAmount" class=" col-form-label"> Total Amount:*</label>
-                        <input type="text" class="form-control" autocomplete="off" id="amountInputSpan" readonly>
+                        <input type="text" class="form-control" autocomplete="off" id="amountSpan" readonly>
                     </div>
                     <div class="col-sm-4">
                         <label for="totalVatableAmount" class=" col-form-label"> Total Vatable Amount:*</label>
@@ -215,55 +233,6 @@ function setTodayDate() {
     document.getElementById('todayDate').value = formattedDate;
 }
 
-function onlyNumberKey(event) {
-    var key = window.event ? event.keyCode : event.which;
-    if (event.keyCode === 8 || event.keyCode === 46) {
-        return true;
-    } else if (key < 48 || key > 57) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function searchPartyName() {
-    var partyName = document.getElementById('partyName').value;
-    if (partyName != '') {
-        axajUrl = "/searchSuppliersForSuppliersId/" + partyName;
-        //  axajUrl = "/searchSuppliers/" + partyName + "/Sundry Creditors/2";
-        $.ajax({
-            type: "GET",
-            url: axajUrl,
-            async: false,
-            success: function(dataResult) {
-                $("#partyname_data").empty();
-                response = dataResult;
-                console.log(dataResult);
-                var dataResult = JSON.parse(dataResult);
-                document.getElementById('partyname_data').style.display = 'block';
-                var r = 1;
-                for (var i = 0; i < dataResult.length; i++) {
-
-                    var str = "<a href='#' onclick='putItemIntoTextField(\"" + dataResult[i].id +
-                        "\",\"" + dataResult[i].fullname + "\");'>" + dataResult[i].fullname + "</a>";
-
-                    $("#partyname_data").append(str);
-
-                    r++;
-                }
-            }
-        });
-    } else {
-        document.getElementById('partyname_data').style.display = 'none';
-    }
-}
-
-function putItemIntoTextField(id, fullname) {
-    $("#accno").val(id);
-    $("#partyName").val(fullname);
-    document.getElementById('partyname_data').style.display = 'none';
-}
-
 function searchItem() {
     var input, filter, dropdown, items, i, txtValue;
     input = document.getElementById("itemName");
@@ -288,12 +257,14 @@ function searchItem() {
     }
 }
 
-function updateItem(itemId, itemName, unit, vatable, normal_rate, stockable) {
+function updateItem(itemId, itemName, unit, subunit, equal_value, vatable, normal_rate) {
     document.getElementById('itemId').value = itemId;
     document.getElementById('itemName').value = itemName;
     document.getElementById('unitInput').value = unit;
+    document.getElementById('initeConvertStandardInput').value = equal_value;
+    document.getElementById('convertTypeInput').value = subunit;
     document.getElementById('rateInput').value = normal_rate;
-    document.getElementById('stockableInput').value = stockable;
+
     const vatableInput = document.getElementById('vatableInput');
     if (vatable === "0") {
         vatableInput.style.display = 'none';
@@ -304,6 +275,7 @@ function updateItem(itemId, itemName, unit, vatable, normal_rate, stockable) {
     }
     document.getElementById('itemDropdown').style.display = 'none';
 }
+
 const quantityInput = document.getElementById('quantityInput');
 const rateInput = document.getElementById('rateInput');
 const amountInput = document.getElementById('amountInput');
@@ -319,7 +291,9 @@ function updateAmountAndTotalAmount() {
     const quantity = parseFloat(quantityInput.value) || 0;
     const rate = parseFloat(rateInput.value) || 0;
     const amount = (quantity * rate).toFixed(2);
+
     amountInput.value = amount;
+
     updateTotalAmount();
 }
 
@@ -338,24 +312,24 @@ function updateTotalAmount() {
 
     totalAmountInput.value = totalAmount;
 }
-
 var items = [];
 
 function displayBasketItemIntoTable() {
     try {
         event.preventDefault();
         var itemId = document.getElementById('itemId').value;
-
         var itemName = document.getElementById('itemName').value;
         var unit = document.getElementById('unitInput').value;
         var quantity = document.getElementById('quantityInput').value;
-        var stockable = document.getElementById('stockableInput').value;
         var rate = document.getElementById('rateInput').value;
         var amount = parseFloat(quantity) * parseFloat(rate);
         var vatable = document.getElementById('vatableInput').value;
         var totalAmount = document.getElementById('totalAmountInput').value;
+        var initeConvertStandard = document.getElementById('initeConvertStandardInput').value;
+        var convertType = document.getElementById('convertTypeInput').value;
 
         var hasError = false;
+
 
         if (itemName.trim() === '') {
             document.getElementById('itemName').style.borderColor = 'red';
@@ -363,6 +337,7 @@ function displayBasketItemIntoTable() {
         } else {
             document.getElementById('itemName').style.borderColor = '';
         }
+
         if (hasError) {
             return;
         }
@@ -371,23 +346,17 @@ function displayBasketItemIntoTable() {
             location.reload();
             return;
         }
+
         if (quantity.trim() === '') {
             document.getElementById('quantityInput').style.borderColor = 'red';
             hasError = true;
         } else {
             document.getElementById('quantityInput').style.borderColor = '';
         }
-
-        if (rate.trim() === '') {
-            document.getElementById('rateInput').style.borderColor = 'red';
-            hasError = true;
-        } else {
-            document.getElementById('rateInput').style.borderColor = '';
-        }
-
         if (hasError) {
             return;
         }
+
         items.push(
             itemId + '{#}' + itemName + '{#}' + unit +
             '{#}' +
@@ -401,7 +370,9 @@ function displayBasketItemIntoTable() {
             '{#}' +
             totalAmount +
             '{#}' +
-            stockable
+            initeConvertStandard +
+            '{#}' +
+            convertType
         );
 
         displayItemsInTable();
@@ -416,7 +387,7 @@ function displayItemsInTable() {
         var datatable = document.getElementById('itemTableBody');
         var totalAmount = 0;
         var totalVatable = 0;
-        var amountTotal = 0;
+        var amount = 0;
 
         if (datatable === undefined) {
             throw new Error("Datatable element not found.");
@@ -431,28 +402,30 @@ function displayItemsInTable() {
             var unit = itemDetails[2];
             var quantity = itemDetails[3];
             var rate = itemDetails[4];
-            var amount = itemDetails[5];
+            var amountItem = itemDetails[5];
             var vatable = itemDetails[6];
             var totalAmountItem = itemDetails[7];
-            var stockable = itemDetails[8];
+            var initeConvertStandard = itemDetails[8];
+            var convertType = itemDetails[9];
 
-            amountTotal += parseFloat(amount);
             totalAmount += parseFloat(totalAmountItem);
             totalVatable += parseFloat(vatable);
+            amount += parseFloat(amountItem);
 
             var str =
                 '<tr><td><input type="hidden" name="items[]" value="' +
                 itemId + '{#}' + itemName + '{#}' + unit + '{#}' + quantity +
-                '{#}' + rate + '{#}' + amount + '{#}' + vatable + '{#}' + totalAmountItem + '{#}' + stockable + '" />' +
+                '{#}' + rate + '{#}' + amountItem + '{#}' + vatable + '{#}' + totalAmountItem +
+                '{#}' + initeConvertStandard + '{#}' + convertType + '" />' +
                 itemName +
-                '</td><td>' +
-                quantity +
                 '</td><td>' +
                 rate +
                 '</td><td>' +
+                quantity +
+                '</td><td>' +
                 unit +
                 '</td><td>' +
-                amount +
+                amountItem +
                 '</td><td>';
 
             if (vatable === "0") {
@@ -463,20 +436,27 @@ function displayItemsInTable() {
 
             str += '</td><td>' +
                 totalAmountItem +
-
-                '</td><td><button class="btn btn-info" onclick="deleteItem(' +
+                '</td><td>' +
+                initeConvertStandard +
+                '</td><td>' +
+                convertType +
+                '</td><td><button class="delete-btn" onclick="deleteItem(' +
                 i +
                 ')"><i class="fas fa-times"></i></button></td></tr>';
 
             datatable.innerHTML += str;
         }
-        document.getElementById('amountInputSpan').value = amountTotal.toFixed(2);
-        document.getElementById('totalVatableSpan').value = totalVatable.toFixed(2);
+
+        document.getElementById('amountSpan').value = amount.toFixed(2);
         document.getElementById('totalAmountSpan').value = totalAmount.toFixed(2);
+        document.getElementById('totalVatableSpan').value = totalVatable.toFixed(2);
     } catch (error) {
         console.error("An error occurred while displaying the basket items:", error);
     }
 }
+
+
+
 
 function deleteItem(index) {
     try {
@@ -487,6 +467,7 @@ function deleteItem(index) {
     }
 }
 
+
 function clearInputFields() {
     document.getElementById('itemName').value = '';
     document.getElementById('unitInput').value = '';
@@ -495,12 +476,77 @@ function clearInputFields() {
     document.getElementById('amountInput').value = '';
     document.getElementById('vatableInput').value = '';
     document.getElementById('totalAmountInput').value = '';
+    document.getElementById('initeConvertStandardInput').value = '';
+    document.getElementById('convertTypeInput').value = '';
 }
+
+
+
+
+
 
 function confirmDelete(url) {
     if (confirm("Are you sure you want to delete this item?")) {
         window.location.href = url;
     }
+}
+
+function onlyNumberKey(event) {
+    var key = window.event ? event.keyCode : event.which;
+    if (event.keyCode === 8 || event.keyCode === 46) {
+        return true;
+    } else if (key < 48 || key > 57) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function searchPartyName() {
+    var partyName = document.getElementById('partyName').value;
+
+
+    if (partyName != '') {
+
+        axajUrl = "/searchProjectName/" + partyName;
+        $.ajax({
+            type: "GET",
+            url: axajUrl,
+            async: false,
+            success: function(dataResult) {
+                $("#partyname_data").empty();
+                response = dataResult;
+                console.log(dataResult);
+                var dataResult = JSON.parse(dataResult);
+                document.getElementById('partyname_data').style.display = 'block';
+                var r = 1;
+                for (var i = 0; i < dataResult.length; i++) {
+
+                    var str = "<a href='#' onclick='putItemIntoTextField(\"" + dataResult[i].id +
+                        "\",\"" + dataResult[i].project_name + "\");'>" + dataResult[i].project_name +
+                        "</a>";
+
+                    $("#partyname_data").append(str);
+
+                    r++;
+                }
+
+
+            }
+        });
+
+
+    } else {
+        document.getElementById('partyname_data').style.display = 'none';
+    }
+
+
+}
+
+function putItemIntoTextField(id, project_name) {
+    $("#accno").val(id);
+    $("#partyName").val(project_name);
+    document.getElementById('partyname_data').style.display = 'none';
 }
 </script>
 @endsection

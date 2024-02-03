@@ -105,6 +105,7 @@
 
 
 
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-8">
@@ -133,7 +134,7 @@
     <div class="card card-info">
         <div class="card-header">
             <h3 class="card-title"></h3>
-            Goods Issue List
+            Goods Issue Return List
         </div>
 
         <div class="card-body">
@@ -142,7 +143,7 @@
                 <div class="row">
                     <div class="col-md-6 ">
 
-                        <form action="{{url('/goodsissue')}}" method="GET" accept-charset="utf-8">
+                        <form action="{{url('/goodissuereturn')}}" method="GET" accept-charset="utf-8">
                             @csrf
                             <div style="margin-bottom:15px; " class="input-group">
                                 <input type="text" autocomplete="off" name="project_name"
@@ -180,6 +181,7 @@
 
                         <tr>
                             <td colspan="6" class="no-item-found">No Item Found</td>
+
                         </tr>
                         @else
                         @foreach($list as $item)
@@ -190,8 +192,7 @@
                             <td>{{$item->quantity}}</td>
                             <td>{{$item->vat}}</td>
                             <td>{{$item->gtotal}}</td>
-                            <td>
-                                <a href="{{ url('editgoodIssue/'.$item->transactionCode) }}"><button
+                            <td> <a href="{{ url('editgoodIssueReturn/'.$item->transactionCode) }}"><button
                                         class="btn btn-info btn-sm">Cancel<i class="ri-pencil-line"></i></button></a>
                                 &nbsp;
                                 <button class="btn btn-info openrecord-button"
@@ -291,7 +292,6 @@
     </div>
 
 
-
     <script>
     setTodayDate();
 
@@ -309,7 +309,7 @@
     function showModal(transactionCode) {
 
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/getGoodIssue/" + transactionCode, true);
+        xhr.open("GET", "/getGoodIssueReturn/" + transactionCode, true);
 
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -363,7 +363,5 @@
         document.getElementById('modal-grand-total').textContent = grandTotal.toFixed(2);
     }
     </script>
-
-
 
     @endsection

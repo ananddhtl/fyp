@@ -3,7 +3,7 @@
     <a href="http://tukisoft.com.np/" target="_blank" class="brand-link">
         <img src="/image/nirmal-abhilekh.png" alt="Tuki Soft Thekedar" class="brand-image  elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">Nirman Abhilekh</span>
+        <span class="brand-text font-weight-light">e-SajiloNirman</span>
     </a>
     <!-- Sidebar -->
     <div
@@ -293,7 +293,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/projectprogress/add" class="nav-link">
+                                        <a href="/goodsreturn" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p> Goods Return List</p>
                                         </a>
@@ -317,7 +317,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/projectprogress/add" class="nav-link">
+                                        <a href="/goodsissue" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p> Goods Issue List</p>
                                         </a>
@@ -327,7 +327,6 @@
                             </li>
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-
                                     <p>
                                         Goods Issue Return
                                         <i class="fas fa-angle-left right"></i>
@@ -335,13 +334,13 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="/projectestimation/add" class="nav-link">
+                                        <a href="/addgoodsissuereturn" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p> Goods Issue Return Entry</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="/projectprogress/add" class="nav-link">
+                                        <a href="/goodissuereturn" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p> Goods Issue Return List</p>
                                         </a>
@@ -349,7 +348,52 @@
 
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <p>
+                                        Item Category
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/itemcategory" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Category</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/itemcategorylist" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p> Category List</p>
+                                        </a>
+                                    </li>
 
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <p>
+                                        Item Settings
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/additemssettings" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Items</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/itemslist" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p> Items List</p>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
                             <li class="nav-header">REPORTING</li>
 
 
@@ -429,6 +473,33 @@
                                             <p>Party Wise</p>
                                         </a>
                                     </li>
+                                </ul>
+
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+
+                                    <p>
+                                        Inventory
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+                                    <li class="nav-item">
+                                        <a href="/primarystockReport" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Primary Stock Report</p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="/secondarystockReport" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Secondary Stock Report</p>
+                                        </a>
+                                    </li>
+                                    
                                 </ul>
 
                             </li>

@@ -131,7 +131,7 @@ class GoodsReturnEntryController extends Controller
         $purchaseRecords->nontaxable = 1;
         $purchaseRecords->save();
 
-        return redirect('/goodsreturn')->with('message', 'Your data has been added successfully');
+        return redirect('/goodsreturn')->with('stored', 'Data has been saved successfully');
     }
     public function index(Request $request)
     {
@@ -192,24 +192,25 @@ class GoodsReturnEntryController extends Controller
                 ->select('purchase_record_returns.*', 'primaryInventoryStore.*', 'projects.project_name', 'item_settings.*')
                 ->where('tCode', $tCode)
                 ->first();
-            return view('inventory.goodsreturn.edit', compact('goodsReturn', 'list'));
+            return view('frontend.inventory.goodsreturn.edit', compact('goodsReturn', 'list'));
         }
     }
-    public function forModal(GoodsReceived $goodsReceived, $tCode, Request $request)
+    public function forModal(GoodsReceived $goodsReceived, $transactionCode, Request $request)
     {
+        
         $list = DB::table('purchase_record_returns')
             ->join('primaryInventoryStore', 'primaryInventoryStore.tCode', '=', 'purchase_record_returns.transactionCode')
             ->join('projects', 'purchase_record_returns.project_id', '=', 'projects.id')
             ->join('item_settings', 'item_settings.id', '=', 'primaryInventoryStore.inventoryID')
             ->select('purchase_record_returns.*', 'primaryInventoryStore.*', 'projects.project_name', 'item_settings.*')
-            ->where('primaryInventoryStore.tCode', $tCode)->get();
+            ->where('primaryInventoryStore.tCode', $transactionCode)->get();
 
         $goodsReceived = DB::table('primaryInventoryStore')
             ->join('purchase_record_returns', 'primaryInventoryStore.tCode', '=', 'purchase_record_returns.transactionCode')
             ->join('projects', 'purchase_record_returns.project_id', '=', 'projects.id')
             ->join('item_settings', 'item_settings.id', '=', 'primaryInventoryStore.inventoryID')
             ->select('purchase_record_returns.*', 'primaryInventoryStore.*', 'projects.project_name', 'item_settings.*')
-            ->where('tCode', $tCode)
+            ->where('tCode', $transactionCode)
             ->first();
 
         return response()->json([
@@ -220,14 +221,14 @@ class GoodsReturnEntryController extends Controller
     public function update(Request $request, $tCode)
     {
         {
-            \DB::table('activity_logs')->insert([
-                'LogDate' =>  date('Y-m-d'),
-                'Activity' =>  'Goods Return  Cancel',
-                'userid' => $request->user_id,
-                'ReferenceNo' => "$tCode",
-                'AccountingDate' =>   date('Y-m-d'),
-                'LogsTime' => date("Y-m-d h:i:sa"),
-            ]);
+            // \DB::table('activity_logs')->insert([
+            //     'LogDate' =>  date('Y-m-d'),
+            //     'Activity' =>  'Goods Return  Cancel',
+            //     'userid' => $request->user_id,
+            //     'ReferenceNo' => "$tCode",
+            //     'AccountingDate' =>   date('Y-m-d'),
+            //     'LogsTime' => date("Y-m-d h:i:sa"),
+            // ]);
 
             $goodsReturn = DB::table('primaryInventoryStore')->where('tCode', $tCode)->first();
             if (!$goodsReturn) {
@@ -252,7 +253,7 @@ class GoodsReturnEntryController extends Controller
 
                 ]);
 
-            return redirect('/goodsreturn')->with('message', 'Your data has been updated successfully');
+            return redirect('/goodsreturn')->with('updated', 'Data has been canceled successfully');
         }
 
     }

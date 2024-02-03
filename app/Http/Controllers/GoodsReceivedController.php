@@ -172,7 +172,7 @@ class GoodsReceivedController extends Controller
             $purchaseRecords->nontaxable = 1;
             $purchaseRecords->save();
 
-            return redirect('/goodsreceivedlist')->with('message', 'Your data has been added successfully');
+            return redirect('/goodsreceivedlist')->with('stored', 'Data has been saved successfully');
         }
     }
 
@@ -204,7 +204,7 @@ class GoodsReceivedController extends Controller
             ->select('purchase_records.*', 'primaryInventoryStore.*', 'suppliers.fullname', 'item_settings.*')
             ->where('tCode', $tCode)
             ->first();
-        return view('inventory.goodsreceived.cancel', compact('goodsReceived', 'list'));
+        return view('frontend.inventory.goodsreceived.edit', compact('goodsReceived', 'list'));
 
     }
 
@@ -213,14 +213,14 @@ class GoodsReceivedController extends Controller
      */
     public function update(Request $request, $tCode)
     {
-        \DB::table('activity_logs')->insert([
-            'LogDate' => date('Y-m-d'),
-            'Activity' => 'Goods Received  Cancel',
-            'userid' => $request->user_id,
-            'ReferenceNo' => "$tCode",
-            'AccountingDate' => date('Y-m-d'),
-            'LogsTime' => date("Y-m-d h:i:sa"),
-        ]);
+        // \DB::table('activity_logs')->insert([
+        //     'LogDate' => date('Y-m-d'),
+        //     'Activity' => 'Goods Received  Cancel',
+        //     'userid' => $request->user_id,
+        //     'ReferenceNo' => "$tCode",
+        //     'AccountingDate' => date('Y-m-d'),
+        //     'LogsTime' => date("Y-m-d h:i:sa"),
+        // ]);
         $goodsReceived = GoodsReceived::where('tCode', $tCode)->first();
         if (!$goodsReceived) {
             return redirect()->back()->with('message', 'Goods received not found');
@@ -241,7 +241,7 @@ class GoodsReceivedController extends Controller
                 'cancel' => 1,
 
             ]);
-        return redirect('/goodsreceived')->with('message', 'Your data has been updated successfully');
+        return redirect('/goodsreceivedlist')->with('updated', 'Data has been canceled successfully');
     }
     /**
      * Remove the specified resource from storage.

@@ -68,7 +68,7 @@ class AddUserController extends Controller
         if (!empty($user[0])) {
             if (Hash::check($password, $user[0]->password)) {
                 $request->session()->put('sessionUserId', $user[0]->password);
-                $request->session()->save();    // This will actually store the value in session and it will be available then all over
+                $request->session()->save();    
                 return redirect('/');
             } else {
                 return Redirect::back()->withErrors(['msg' => 'These credentials do not match our records.']);

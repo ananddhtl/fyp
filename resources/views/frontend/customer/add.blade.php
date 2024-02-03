@@ -12,7 +12,6 @@
         <div class="toast-body">{{session('text')}}</div>
     </div>
 </div>
-
 @endif
 
 <section class="content-header">
@@ -25,12 +24,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active"><a href="/customer/add">Add</a></li>
-
                     <li class="breadcrumb-item active"><a href="/customer/list">List</a></li>
-
-
-
-
                 </ol>
             </div>
         </div>
@@ -40,7 +34,6 @@
     <div class="card card-info">
         <div class="card-header">
             <h3 class="card-title">Add Customer </h3>
-
         </div>
         <!-- /.card-header -->
         <!-- form start -->

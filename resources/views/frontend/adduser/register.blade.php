@@ -15,10 +15,13 @@ if (session()->get('sessionUserId') != "") {
     <!-- 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+        integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('Adminpanel/plugins/fontawesome-free/css/all.min.css')}}">
     <!-- Theme style -->
@@ -36,7 +39,9 @@ if (session()->get('sessionUserId') != "") {
             <div class="col-md-4"></div>
             <div class="col-md-4">
 
-                <div style="width: 100%; margin-bottom:10px; text-align: center;"> <a href="http://tukisoft.com.np/" target="_blank" style="text-align: center;"> <img height="150px;" class="responsive" src="image/nirmal-abhilekh.png"></a></div>
+                <!-- <div style="width: 100%; margin-bottom:10px; text-align: center;"> <a href="http://tukisoft.com.np/"
+                        target="_blank" style="text-align: center;"> <img height="150px;" class="responsive"
+                            src="image/nirmal-abhilekh.png"></a></div> -->
 
                 <!-- Input addon -->
 
@@ -63,52 +68,45 @@ if (session()->get('sessionUserId') != "") {
                     <form action="{{route('registerAccount')}}" method="POST" autocomplete="off">
                         @csrf
                         <div class="card-body">
-
-
                             <div class="form-group row">
                                 <!-- <label for="status" class="col-sm-2 col-form-label">Name</label> -->
                                 <div class="col-sm-12">
-                                    <input type="search" class="form-control " autocomplete="off" name="username" id="username" placeholder="Enter Full Name" required>
-
+                                    <input type="search" class="form-control " autocomplete="off" name="username"
+                                        id="username" placeholder="Enter Full Name" required>
                                 </div>
-
-
-
                             </div>
-
                             <div class="form-group row">
                                 <!-- <label for="status" class="col-sm-2 col-form-label">Email</label> -->
                                 <div class="col-sm-12">
-                                    <input type="search" class="form-control " autocomplete="off" name="email" id="email" placeholder="Enter Email" required>
-
+                                    <input type="search" class="form-control " autocomplete="off" name="email"
+                                        id="email" placeholder="Enter Email" required>
                                 </div>
-                                <!-- <label for="status" class="col-sm-2 col-form-label"></label> -->
-
                             </div>
-                            <!-- <label for="status" class="col-sm-2 col-form-label">Password</label> -->
                             <div class="form-group row">
                                 <div class="col-sm-12">
-                                    <input type="password" class="form-control " autocomplete="off" name="password" id="password" placeholder="Enter Password" required>
+                                    <input type="password" class="form-control " autocomplete="off" name="password"
+                                        id="password" placeholder="Enter Password" required>
 
                                 </div>
                             </div>
                             <div class="form-group row">
 
                                 <div class="col-sm-4">
-                                    <input type="submit" value="Create Account" class="btn btn-info float-sm-centre"></button>
-
+                                    <input type="submit" value="Create Account"
+                                        class="btn btn-info float-sm-centre"></button>
                                 </div>
                                 <div class="col-sm-4"></div>
                             </div>
                         </div>
-
+                    </form>
                 </div>
 
                 <!-- /.card-footer -->
                 </form>
                 <div style="margin: 10px;">
                     <div class="footer">
-                        <p>© 2022 thekedar All Rights Reserved | Developed by <a href="https://http://tukisoft.com.np/" target="_blank">Tuki Soft Pvt.Ltd.</a></p>
+                        <p>© 2022 e-SajiloNirman All Rights Reserved | Developed by <a href="https://http://tukisoft.com.np/"
+                                target="_blank">Ananda Dhital</a></p>
                     </div>
                 </div>
             </div>
@@ -131,9 +129,9 @@ if (session()->get('sessionUserId') != "") {
     <script src="{{asset('Adminpanel/dist/js/demo.js')}}"></script>
     <!-- Page specific script -->
     <script>
-        $(function() {
-            bsCustomFileInput.init();
-        });
+    $(function() {
+        bsCustomFileInput.init();
+    });
     </script>
     <script src="{{ asset('site/js/jquery.js') }}"></script>
     <script src="{{ asset('site/js/app.js') }}"></script>
@@ -143,7 +141,7 @@ if (session()->get('sessionUserId') != "") {
     <script src="{{ asset('site/js/script.js') }}"></script>
 
     <script>
-        $('#modelId').modal('show');
+    $('#modelId').modal('show');
     </script>
 
 

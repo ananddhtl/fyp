@@ -28,6 +28,10 @@ use App\Http\Controllers\SuppliersController;
 use App\Http\Controllers\GoodsReceivedController;
 use App\Http\Controllers\GoodsReturnEntryController;
 use App\Http\Controllers\GoodsIssueController;
+use App\Http\Controllers\GoodIssueReturnController;
+use App\Http\Controllers\ItemCategoriesController;
+use App\Http\Controllers\ItemSettingsController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +52,6 @@ Route::get('/register', function () {
 });
 
 Route::post('/userregister', [AddUserController::class, 'createAccount'])->name('registerAccount');
-
-
-
 Route::post('/userlogin', [AddUserController::class, 'loginAccount'])->name('loginAccount');
 
 Route::get('/login', function () {
@@ -221,8 +222,16 @@ Route::get('/addgoodsissue', function () {
     return view('frontend.inventory.goodsissue.add');
 });
 
+Route::get('/addgoodsissuereturn', function () {
+    return view('frontend.inventory.goodsissuereturn.add');
+});
 
-
+Route::get('/itemcategory', function () {
+    return view('frontend.inventory.itemcategory.add');
+});
+Route::get('/additemssettings', function () {
+    return view('frontend.inventory.itemsettings.add');
+});
 
 Route::get('/service/add', [ServiceController::class, 'index']);
 
@@ -738,17 +747,46 @@ Route::get('/searchDateWithSuppliers', [ProjectActivitiesController::class, 'get
 Route::POST('/addGoodReceived', [GoodsReceivedController::class, 'store']);
 Route::get('/goodsreceivedlist', [GoodsReceivedController::class, 'index']);
 Route::get('/getGoodReceived/{transactionCode}', [GoodsReceivedController::class, 'forModal']);
-
-
+Route::get('/editGoodReceived/{tCode}', [GoodsReceivedController::class, 'edit']);
+Route::post('/updateGoodsReceived/{tCode}', [GoodsReceivedController::class, 'update']);
 Route::get('/searchProjectName/{searchkey}', [ProjectController::class, 'searchProjectData']);
 
 
 Route::post('/addgoodsreceivedReturn', [GoodsReturnEntryController::class, 'store']);
 Route::get('/goodsreturn', [GoodsReturnEntryController::class, 'index']);
+Route::get('/getGoodReturn/{transactionCode}', [GoodsReturnEntryController::class, 'forModal']);
+Route::get('/editGoodReturn/{tCode}', [GoodsReturnEntryController::class, 'edit']);
+Route::post('/updateGoodsReturn/{tCode}', [GoodsReturnEntryController::class, 'update']);
+
 
 
 Route::post('/addgoodsissue', [GoodsIssueController::class, 'store']);
 Route::get('/goodsissue', [GoodsIssueController::class, 'index']);
+Route::get('/getGoodIssue/{transactionCode}', [GoodsIssueController::class, 'forModal']);
+Route::get('/editgoodIssue/{tCode}', [GoodsIssueController::class, 'edit']);
+Route::post('/updategoodsIssue/{tCode}', [GoodsIssueController::class, 'update']);
 
 
 Route::post('/addgoodsissuereturn', [GoodIssueReturnController::class, 'store']);
+Route::get('/goodissuereturn', [GoodIssueReturnController::class, 'index']);
+Route::get('/getGoodIssueReturn/{transactionCode}', [GoodIssueReturnController::class, 'forModal']);
+Route::get('/editgoodIssueReturn/{tCode}', [GoodIssueReturnController::class, 'edit']);
+Route::post('/updategoodsIssueReturn/{tCode}', [GoodIssueReturnController::class, 'update']);
+
+
+
+Route::post('/addCatagoryData', [ItemCategoriesController::class, 'store']);
+Route::get('/itemcategorylist', [ItemCategoriesController::class, 'index']);
+Route::get('/edit-category/{id}', [ItemCategoriesController::class, 'edit']);
+Route::get('/deleteCatagory/{id}', [ItemCategoriesController::class, 'destroy']);
+Route::post('/updateItemCatagoryData/{id}', [ItemCategoriesController::class, 'update']);
+
+
+Route::post('/addItemSettingsData', [ItemSettingsController::class, 'store']);
+Route::get('/itemslist', [ItemSettingsController::class, 'index']);
+Route::get('/edit-itemsettings/{id}', [ItemSettingsController::class, 'edit']);
+Route::get('/deleteItemsSettings/{id}', [ItemSettingsController::class, 'destroy']);
+Route::post('/updateItemSettingsData/{id}', [ItemSettingsController::class, 'update']);
+
+Route::get('/primarystockReport', [ReportController::class, 'getPrimaryReport']);
+Route::get('/secondarystockReport', [ReportController::class, 'getSecondaryReport']);
