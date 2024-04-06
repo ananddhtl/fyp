@@ -1,10 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="http://tukisoft.com.np/" target="_blank" class="brand-link">
-        <img src="/image/nirmal-abhilekh.png" alt="Tuki Soft Thekedar" class="brand-image  elevation-3"
-            style="opacity: .8">
-        <span class="brand-text font-weight-light">e-SajiloNirman</span>
-    </a>
+    
     <!-- Sidebar -->
     <div
         class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">

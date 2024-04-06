@@ -1,8 +1,4 @@
-<?php
-if (session()->get('sessionUserId') == "") {
-  redirect()->to('/login')->send();
-}
-?>
+
 
 <head>
   <meta charset="utf-8">
