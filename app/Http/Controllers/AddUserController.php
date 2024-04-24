@@ -63,13 +63,11 @@ class AddUserController extends Controller
         $email = $request->email;
         $password = $request->password;
         $user = DB::table('add_users')->where('email', $email)->get();
-
-        //dd($user[0]->password);
         if (!empty($user[0])) {
             if (Hash::check($password, $user[0]->password)) {
                 $request->session()->put('sessionUserId', $user[0]->password);
                 $request->session()->save();    
-                return redirect('/');
+                return redirect('/dashboard');
             } else {
                 return Redirect::back()->withErrors(['msg' => 'These credentials do not match our records.']);
             }
@@ -98,7 +96,7 @@ class AddUserController extends Controller
         $request->session()->put('sessionUserId', Hash::make($request->password));
         $request->session()->save();    // This will actually store the value in session and it will be available then all over
 
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
 
@@ -161,4 +159,19 @@ class AddUserController extends Controller
 
         return redirect('/adduser')->with('message', 'Customer has been deleted successfully');
     }
+
+
+
+    public function requestdemo(Request $request)
+    {
+
+
+
+        Mail::to($user->email)->send(new \App\Mail\SendOTP($user));
+
+        return $this->sendResponse([
+            'temp_token' => $temp_token,
+        ], "OTP has been sent to your email");
+    }
+
 }

@@ -112,7 +112,7 @@ class EquipmentCatagoryController extends Controller
     public function destroy(EquipmentCatagory $equipmentCatagory, $id)
     {
         EquipmentCatagory::where('id', '=', $id)->delete();
-        return redirect('/showequipmentCatagory')->with('messages', ' Your data has been deleted successfully');
+        return redirect('/showequipmentCatagory')->with('message', ' Your data has been deleted successfully');
     }
     public function search(Request $request,)
     {

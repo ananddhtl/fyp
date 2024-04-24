@@ -115,7 +115,6 @@
                   <td>{{ $activity->unit }} </td>
                   <td>
 
-                    <a style="width:40px" href="{{route('editActivities', $activity->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>&nbsp;
                     <button style="width:40px" type="button" class="btn btn-danger btn-sm" onclick="showModal({{$activity->id}})" data-toggle="modal" data-target="#exampleModalLong"><i class="fas fa-remove"></i>
 
                 </tr>

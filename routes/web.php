@@ -47,12 +47,18 @@ use App\Http\Controllers\ReportController;
 
 // authorization
 
+
+Route::get('/', function () {
+    return view('frontend.landingpage');
+});
 Route::get('/register', function () {
     return view('frontend.adduser.register');
 });
 
 Route::post('/userregister', [AddUserController::class, 'createAccount'])->name('registerAccount');
 Route::post('/userlogin', [AddUserController::class, 'loginAccount'])->name('loginAccount');
+
+Route::post('/requestdemo', [AddUserController::class, 'requestdemo'])->name('requestdemo');
 
 Route::get('/login', function () {
     return view('frontend.adduser.login');
@@ -361,7 +367,7 @@ Route::get('/projectprogress/{id}/{projectname}', [ProjectEstimationController::
 
 Route::get('/singlesuppliersdetails/{id}/{fullname}', [ProjectActivitiesController::class, 'getSuppliersSingleWiseData']);
 
-Route::get('/', [ServiceBillItemController::class, 'totalData']);
+Route::get('/dashboard', [ServiceBillItemController::class, 'totalData']);
 
 
 
@@ -441,7 +447,7 @@ Route::get('delete-staff/{id}', [StaffController::class, 'destroy']);
 
 
 
-Route::get('delete-user/{id}', [AddUser::class, 'destroy'])->name('destroy');
+Route::get('delete-user/{id}', [AddUserController::class, 'destroy'])->name('destroy');
 
 Route::get('delete-equipment/{id}', [EquipmentsController::class, 'destroy']);
 

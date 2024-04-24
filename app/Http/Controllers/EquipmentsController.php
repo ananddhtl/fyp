@@ -132,7 +132,7 @@ class EquipmentsController extends Controller
     public function destroy(Equipment $equipment ,$id)
     {
         Equipment::where('id','=',$id)->delete();
-        return redirect('/viewequipment')->with('messages', ' Your data has been deleted successfully');
+        return redirect('/viewequipment')->with('message', ' Your data has been deleted successfully');
     }
     public function export()
     {

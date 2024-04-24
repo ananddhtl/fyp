@@ -184,7 +184,7 @@ $currancyformat = new NepaliCurrancyFormat();
                                     <tr>
                                         <td>{{$i}}</td>
                                         <td>{{$item->itemName}}</td>
-                                        <!-- <td></td> -->
+                                      
                                         <td>{{@$item->qtyIn}} {{$item->itemUnit}}</td>
                                     </tr>
                                     @endforeach

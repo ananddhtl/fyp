@@ -72,7 +72,7 @@ class ServiceCatagoryController extends Controller
         ServiceCatagory::where('id', '=', $id)->update([
                'status'  => 1,
         ]);
-        return redirect()->back()->with('message', 'Service Bill Amount has been deleted successfully');
+        return redirect()->back()->with('message', 'Service Category has been deleted successfully');
     }
     public function editServiceCatagory($id)
     {

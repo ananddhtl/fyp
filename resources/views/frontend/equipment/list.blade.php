@@ -17,7 +17,7 @@ $currancyformat = new NepaliCurrancyFormat();
 
 <div id="containerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-success alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added Equipment Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added EquipmentCategory  Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -29,7 +29,7 @@ $currancyformat = new NepaliCurrancyFormat();
 @if (session('message'))
 <div id="ContainerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Equipment Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Equipment Category Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -42,7 +42,7 @@ $currancyformat = new NepaliCurrancyFormat();
 @if (session('messages'))
 <div id="ContainerTopRight" style="margin-top:110px; " class="toasts-top-right ">
     <div class="alert alert-info alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Equipment Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Equipment Category Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -191,7 +191,7 @@ $currancyformat = new NepaliCurrancyFormat();
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
                 <div class="modal-header bg bg-danger">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Customer</i></h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Equipment</i></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

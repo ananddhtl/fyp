@@ -11,7 +11,7 @@
 
 <div id="containerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-success alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added Customer Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Added Equipment Category Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -23,7 +23,7 @@
 @if (session('message'))
 <div id="ContainerTopRight" style="margin-top:110px;" class="toasts-top-right ">
     <div class="alert alert-danger alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Customer Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Deleted Equipment Category Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -36,7 +36,7 @@
 @if (session('messages'))
 <div id="ContainerTopRight" style="margin-top:110px; " class="toasts-top-right ">
     <div class="alert alert-info alert-dismissible fade show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Equipment Data</strong>
+        <div class="header"><strong class="mr-auto">&nbsp;&nbsp;&nbsp;&nbsp;Updated Equipment Category Data</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -183,8 +183,8 @@
     <div class="modal fade " id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content ">
-                <div class="modal-header bg bg-secondary">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Customer</i></h5>
+                <div class="modal-header bg bg-danger">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Delete Equipment Category</i></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -193,7 +193,7 @@
                     Are you sure you want to delete this item?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <a href="#" id="deleteItem" class="btn btn-secondary">Delete</a>
                 </div>
             </div>

@@ -1,19 +1,6 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
   <!-- Left navbar links -->
-  <ul class="navbar-nav">
-    <li class="nav-item">
-      <a class="nav-link" data-widget="pushmenu" href="" role="button"><i class="fas fa-bars"></i></a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="https://tukisoft.com.np/contact.html" target="_blank" class="nav-link">Help</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="https://tukisoft.com.np/contact.html" target="_blank" class="nav-link">Contact</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="https://tukisoft.com.np/" target="_blank" class="nav-link">About</a>
-    </li>
-  </ul>
+  
 
   <!-- Right navbar links -->
   <ul class="navbar-nav ml-auto">
@@ -63,3 +50,18 @@
   </li>
   </ul>
 </nav>
+
+<?php
+if (session()->get('sessionUserId') == "") {
+    header('Location: /login');
+    exit();
+}
+
+$user = \DB::table('add_users')
+    ->select('id', 'username')
+    ->where('password', session()->get('sessionUserId'))
+    ->get();
+
+$id = $user[0]->id;
+$count = \DB::select("select count('id')  from add_users where id='" . $id . "'");
+?>

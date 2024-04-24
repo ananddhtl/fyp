@@ -123,7 +123,7 @@ class StaffController extends Controller
         ]);
 
         // Customer::where('id', '=', $id)->delete();
-        return redirect('staff/list')->with('message', 'Customer has been deleted successfully');
+        return redirect('staff/list')->with('message', 'Staff has been deleted successfully');
     }
     public function search(Request $request,)
     {

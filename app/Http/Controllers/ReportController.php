@@ -36,6 +36,7 @@ class ReportController extends Controller
         $category_id = $request->input('category_id');
         $report_date = $request->input('report_date');
 
+        
         $query = "
 SELECT
     primaryInventoryStore.inventoryID,

@@ -48,10 +48,7 @@ class SuppliersController extends Controller
         $suppliers->save();
         $id = Suppliers::select('id','fullname')->orderBy('created_at', 'desc')->first();
         $suppliers_id = $id->id;
-        return json_encode(array(
-            'status' => true, 'message' => "Successfully done." ,'suppliers_id' => $suppliers_id,'full_name' => $id->fullname
-            
-        ));
+        return redirect('/suppliers/list')->with('status', ' Your data has been added successfully');
        
     }
 

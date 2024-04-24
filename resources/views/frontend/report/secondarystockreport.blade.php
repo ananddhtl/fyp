@@ -72,8 +72,8 @@
                         <tr>
                             <td>{{$item->cat_name}}</td>
                             <td>{{$item->item_name}}</td>
-                            <td>{{$item->inqty}}</td>
-                            <td>{{$item->ouqty}}</td>
+                            <td>{{$item->instock}}</td>
+                            <td>{{$item->outstock}}</td>
                             <td>{{$item->totalQty}}</td>
                             <td>{{$item->totalAmount}}</td>
                             <td><button class="btn openrecord-button" data-tCode="{{ $item->inventoryID }}"> <i

@@ -1,15 +1,11 @@
-<?php
-if (session()->get('sessionUserId') != "") {
-    redirect()->to('/')->send();
-}
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Nirman Abhilkeh :: A complete thekka patta hishab kitab software</title>
+    <title>e-SajiloNirman </title>
     <link rel="icon" href="icon.png">
     <!-- Google Font: Source Sans Pro -->
     <!--
@@ -48,15 +44,7 @@ if (session()->get('sessionUserId') != "") {
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    @if($errors->any())
-                    <div class="m-2 p-2">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <div class="form-control form-control is-invalid">{{$error}}</div>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+
 
                     <form action="{{route('loginAccount')}}" method="POST" autocomplete="off">
                         @csrf
@@ -89,6 +77,15 @@ if (session()->get('sessionUserId') != "") {
                                 <div class="col-sm-4"></div>
                             </div>
                         </div>
+                        @if($errors->any())
+                    <div>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <div class="form-control form-control is-invalid">{{$error}}</div>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
                     </form>
                 </div>
 
@@ -96,8 +93,7 @@ if (session()->get('sessionUserId') != "") {
                 </form>
                 <div style="margin: 10px;">
                     <div class="footer">
-                        <p>© 2022 Nirman Abhilekh All Rights Reserved | Developed by <a
-                                href="https://http://tukisoft.com.np/" target="_blank">Ananda Dhital</a></p>
+                        <p>© 2022 e-SajiloNirman  All Rights Reserved | Developed by Ananda Dhital</p>
                     </div>
                 </div>
             </div>

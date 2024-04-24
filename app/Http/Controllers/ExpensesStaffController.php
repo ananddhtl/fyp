@@ -38,7 +38,7 @@ class ExpensesStaffController extends Controller
     {
         $request->validate([
             'amount' => 'required ',
-            'staff_name' => 'required ',
+            
 
 
 
